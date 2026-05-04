@@ -52,4 +52,4 @@ Copyright © 2026 **TallyBook by DockPort**. All Rights Reserved.
 
 ## 🤝 Contributing
 
-We welcome contributions! Feel free to report bugs, suggest features, or submit pull requests to help make TallyBook the best open-source finance tool for Linux.
+We welcome contributions! Feel free to report bugs or suggest features.
