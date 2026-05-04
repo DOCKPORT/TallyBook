@@ -3,3 +3,5 @@
 A free, local-first Linux AppImage built for personal finance, bookkeeping, budget tracking, and income management.
 
 Copyright (c) 2026 TallyBook by DockPort. All Rights Reserved.
+
+<img width="1920" height="1003" alt="Screenshot_2026-05-03_22-04-48" src="https://github.com/user-attachments/assets/575ad229-2c0a-4adc-aae1-1a159f4fd46b" />
