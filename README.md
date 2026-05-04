@@ -1,9 +1,55 @@
 # TallyBook
-<img width="48" height="48" alt="tallybook_app_icon" src="https://github.com/user-attachments/assets/c20a58d3-0e8c-41d1-9b8c-3985ee1c89a9" />
-A free, local-first Linux AppImage built for personal finance, bookkeeping, budget tracking, and income management.
 
-Copyright (c) 2026 TallyBook by DockPort. All Rights Reserved.
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/c20a58d3-0e8c-41d1-9b8c-3985ee1c89a9" width="64" height="64" alt="TallyBook Icon">
+</p>
 
-<img width="1920" height="1003" alt="Screenshot_2026-05-03_22-04-48" src="https://github.com/user-attachments/assets/575ad229-2c0a-4adc-aae1-1a159f4fd46b" />
-#
-<img width="1920" height="1003" alt="Screenshot_2026-05-03_22-11-34" src="https://github.com/user-attachments/assets/99264d64-827b-4cc2-ae3b-cd598a58b405" />
+**TallyBook** is a free, local-first Linux application designed for streamlined personal finance, bookkeeping, and budget management. Built with privacy and simplicity in mind, it ensures your financial data stays where it belongs—on your machine.
+
+---
+
+## 🚀 Features
+
+*   **Local-First Architecture:** Your data is stored locally, ensuring maximum privacy and offline availability.
+*   **Bookkeeping:** Effortlessly track daily transactions and maintain accurate ledgers.
+*   **Budget Tracking:** Set financial goals and monitor spending habits in real-time.
+*   **Income Management:** Manage multiple revenue streams and visualize your cash flow.
+*   **Linux Native:** Distributed as an **AppImage** for seamless compatibility across various Linux distributions.
+
+---
+
+## 📸 Screenshots
+
+### Dashboard Overview
+![Main Dashboard](https://github.com/user-attachments/assets/575ad229-2c0a-4adc-aae1-1a159f4fd46b)
+
+### Transaction Management
+![Transaction View](https://github.com/user-attachments/assets/99264d64-827b-4cc2-ae3b-cd598a58b405)
+
+---
+
+## 🛠️ Getting Started
+
+### Installation (AppImage)
+
+1.  Download the latest `.AppImage` from the **Releases** page.
+2.  Make the file executable:
+    ```bash
+    chmod +x TallyBook-x86_64.AppImage
+    ```
+3.  Run the application:
+    ```bash
+    ./TallyBook-x86_64.AppImage
+    ```
+
+---
+
+## 📜 License
+
+Copyright © 2026 **TallyBook by DockPort**. All Rights Reserved.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Feel free to report bugs, suggest features, or submit pull requests to help make TallyBook the best open-source finance tool for Linux.
