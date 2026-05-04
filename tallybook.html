@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DockPort - TallyBook</title>
+    <meta name="description"
+        content="TallyBook - A fast, local-first finance ledger for personal and small business transactions, designed with an elegant dark theme.">
+
+    <!-- Twitter Card (X) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DockPort - TallyBook">
+    <meta name="twitter:description" content="TallyBook - A fast, local-first finance ledger for personal and small business transactions, designed with an elegant dark theme.">
+    <meta name="twitter:image" content="https://dockport.github.io/assets/images/DPL.svg">
+
+    <!-- Open Graph (Facebook, LinkedIn, etc.) -->
+    <meta property="og:title" content="DockPort - TallyBook">
+    <meta property="og:description" content="TallyBook - A fast, local-first finance ledger for personal and small business transactions, designed with an elegant dark theme.">
+    <meta property="og:image" content="https://dockport.github.io/assets/images/DPL.svg">
+    <meta property="og:url" content="https://dockport.github.io/tallybook">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/svg+xml" href="assets/images/DPL.svg">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-orange: #ff9500;
+            --secondary-orange: #ff4500;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .back-to-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .back-to-home:hover {
+            color: var(--primary-orange);
+        }
+
+        .tally-logo-img {
+            width: clamp(55px, 6vw, 90px);
+            height: auto;
+            margin-bottom: 0;
+            filter: drop-shadow(0 0 6px rgba(255, 149, 0, 0.25));
+        }
+
+        .tally-hero {
+            padding-top: 11rem;
+            padding-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tally-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.04em;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .orange-text {
+            color: var(--primary-orange);
+        }
+
+        .tally-subtitle {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary-orange);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.8rem;
+            color: var(--primary-orange);
+            font-weight: 700;
+        }
+
+        .feature-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .feature-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .tally-cta-box {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.05) 0%, rgba(255, 69, 0, 0.02) 100%);
+            border: 1px solid rgba(255, 107, 0, 0.15);
+            border-radius: 16px;
+            margin-bottom: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tally-cta-btn {
+            background: transparent;
+            color: #e0e0e0;
+            padding: 0.8rem 2.8rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            border: 2px solid var(--primary-orange);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-family: 'Fira Code', monospace;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .tally-cta-btn:hover {
+            background: var(--primary-orange);
+            color: #0d0d0d;
+        }
+
+        .tally-gallery {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            transition: var(--transition);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--primary-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(255, 149, 0, 0.1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.04);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(13, 13, 13, 0.96);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 85%;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-color);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.show .lightbox-img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            color: #e0e0e0;
+            font-size: 3rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lightbox-close:hover {
+            color: var(--primary-orange);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #e0e0e0;
+            font-size: 3.5rem;
+            font-weight: 300;
+            cursor: pointer;
+            user-select: none;
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .lightbox-prev {
+            left: 2rem;
+        }
+
+        .lightbox-next {
+            right: 2rem;
+        }
+
+        .lightbox-nav:hover {
+            color: var(--primary-orange);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .instructions-section {
+            margin-top: 1rem;
+            margin-bottom: 6rem;
+        }
+
+        .instructions-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .instructions-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .instructions-card:hover {
+            border-color: rgba(255, 149, 0, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(255, 149, 0, 0.04);
+        }
+
+        .instructions-heading {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-orange);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .instructions-heading span {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            opacity: 0.85;
+            color: var(--text-muted);
+        }
+
+        .instructions-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .instructions-list li {
+            position: relative;
+            padding-left: 2rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .instructions-list li strong {
+            color: var(--text-primary);
+        }
+
+        .instructions-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary-orange);
+            font-weight: 700;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .instructions-code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 968px) {
+            .instructions-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tally-hero {
+                padding-top: 9rem;
+            }
+
+            .tally-cta-btn {
+                font-size: 1.05rem;
+                padding: 0.8rem 1.2rem;
+                display: inline-flex;
+                max-width: 100%;
+                word-break: break-all;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tally-title {
+                font-size: 2rem;
+                gap: 0.5rem;
+            }
+            .tally-logo-img {
+                width: 50px;
+            }
+            .tally-cta-btn {
+                font-size: 0.95rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body id="top">
+    <header id="header">
+        <nav class="container nav-centered" style="position: relative;">
+            <div class="logo-wrapper">
+                <a href="/" style="text-decoration: none; color: inherit;">
+                    <div class="logo">
+                        <img src="assets/images/DPL.svg" alt="DockPort Logo" id="main-logo">
+                        <span class="logo-text">DockPort</span>
+                        <span class="email-subtext">dockport_dev@protonmail.com</span>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <a href="/" class="back-to-home">&lt; Back to Home</a>
+
+        <section class="tally-hero">
+            <h1 class="tally-title">
+                <img src="assets/images/tallybook_app_icon.png" alt="TallyBook Logo" class="tally-logo-img">
+                <span class="orange-text">TallyBook</span> Finance Ledger
+            </h1>
+            <p class="tally-subtitle">
+                A free, local-first Linux AppImage built for personal finance, bookkeeping, budget tracking, and income
+                management.
+            </p>
+            <div style="margin-top: 1.5rem;">
+                <div id="tallybook-version"
+                    style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem; letter-spacing: 0.12em; font-weight: 700;">
+                    DOWNLOAD VERSION 1.0.0</div>
+                <a href="#" id="tallybook-download-btn" class="tally-cta-btn"><img src="assets/images/linux-tux-1-logo.png" alt="Linux"
+                        style="height: 32px; width: auto; margin-right: 0.8rem; vertical-align: middle; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));">TallyBook-x86_64.AppImage</a>
+                <div style="margin-top: 1.2rem;">
+                    <a href="https://github.com/DOCKPORT/TallyBook" target="_blank" rel="noopener noreferrer" style="font-family: 'Fira Code', monospace; font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: var(--transition);" onmouseover="this.style.color='var(--primary-orange)'" onmouseout="this.style.color='var(--text-muted)'">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="tally-gallery">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="TallyBook_Gallery/Screenshot_2026-05-03_22-04-48.png"
+                        alt="TallyBook Overview & Main Ledger">
+                </div>
+                <div class="gallery-item">
+                    <img src="TallyBook_Gallery/Screenshot_2026-05-03_22-11-34.png"
+                        alt="TallyBook Analytics & Account Views">
+                </div>
+            </div>
+        </section>
+
+        <section class="instructions-section">
+            <h2 class="instructions-title">Installation & Updates</h2>
+            <div class="instructions-grid">
+                <div class="instructions-card">
+                    <h3 class="instructions-heading">How to Install</h3>
+                    <ul class="instructions-list">
+                        <li><strong>Download:</strong> Get the latest <span
+                                class="instructions-code">TallyBook-x86_64.AppImage</span> from the button above. For a
+                            clean setup, it's highly recommended to save the AppImage file in a dedicated folder (e.g.,
+                            an <em>Applications</em> folder in your Home directory).</li>
+                        <li><strong>Make Executable:</strong> Right-click the downloaded file, select
+                            <em>Properties</em>, navigate to the <em>Permissions</em> tab, and check "Allow executing
+                            file as program".
+                        </li>
+                        <li><strong>Launch:</strong> Double-click the file to launch it. On first run, the program
+                            automatically creates your finance ledger database. If you want to integrate it, it will
+                            also generate a desktop entry so it is fully integrated into your Linux desktop environment.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="instructions-card">
+                    <h3 class="instructions-heading">How to Update</h3>
+                    <ul class="instructions-list">
+                        <li><strong>Download New Version:</strong> Download the updated AppImage file from this page.
+                        </li>
+                        <li><strong>Replace:</strong> Replace your old AppImage with the new one. Your
+                            local ledger data is stored separately in your home directory, the updated version will find
+                            it automatically.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="gallery-lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1, event)">&#10094;</span>
+        <img class="lightbox-img" id="lightbox-img">
+        <span class="lightbox-nav lightbox-next" onclick="changeImage(1, event)">&#10095;</span>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 DockPort. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/version.js"></script>
+    <script>
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href && !href.startsWith('#') && href !== window.location.pathname && !this.id.includes('download') && !this.href.includes('github.com')) {
+                    e.preventDefault();
+                    document.body.classList.add('page-exit');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 450);
+                }
+            });
+        });
+
+        let galleryImages = [];
+        let currentIndex = 0;
+
+        document.querySelectorAll('.gallery-item img').forEach((img, index) => {
+            galleryImages.push(img.src);
+            img.addEventListener('click', function (e) {
+                e.stopPropagation();
+                openLightbox(index);
+            });
+        });
+
+        function openLightbox(index) {
+            currentIndex = index;
+            const lightbox = document.getElementById('gallery-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = galleryImages[currentIndex];
+            lightbox.classList.add('show');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('gallery-lightbox');
+            lightbox.classList.remove('show');
+        }
+
+        function changeImage(direction, event) {
+            if (event) event.stopPropagation();
+            currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = galleryImages[currentIndex];
+        }
+    </script>
+</body>
+
+</html>
