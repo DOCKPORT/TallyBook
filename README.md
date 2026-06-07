@@ -4,7 +4,7 @@
   <img src="https://github.com/user-attachments/assets/c20a58d3-0e8c-41d1-9b8c-3985ee1c89a9" width="64" height="64" alt="TallyBook Icon">
 </p>
 
-**TallyBook** is a free, local-first Linux application designed for streamlined personal finance, bookkeeping, and budget management. Built with privacy and simplicity in mind, it ensures your fina[...]
+**TallyBook** is a free, local-first Linux application designed for streamlined personal finance and budget management. Built with simplicity in mind.
 
 ---
 
@@ -34,7 +34,7 @@
 
 1. Download the latest `.AppImage` from the **Releases** page.
 2. Make Executable: Right-click the downloaded file, select Properties, navigate to the Permissions tab, and check "Allow executing file as program".
-3. Launch: Double-click the file to launch it. On first run, the program automatically creates your finance ledger database. If you want to integrate it, it will also generate a desktop entry so i[...]
+3. Launch: Double-click the file to launch it. On first run, the program automatically creates your finance ledger database. If you want to integrate it, it will also generate a desktop entry.
 
 ---
 
