@@ -38,8 +38,3 @@
 
 ---
 
-
-
-## 🤝 Contributing
-
-We welcome contributions! Feel free to report bugs or suggest features.
