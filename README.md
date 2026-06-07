@@ -37,7 +37,7 @@
 3. Launch: Double-click the file to launch it. On first run, the program automatically creates your finance ledger database. If you want to integrate it, it will also generate a desktop entry so it is fully integrated into your Linux desktop environment.
 
 ---
-Donate to project:
+## Donate to project:
 BTC: bc1qltty5ezggulw7nkl2dx3vmxvg6flyg5lajpjlp
 SOL: 2VQucWV3Qe99zKN8wZKfhrTH2YAfs3SCUk6oHr6eBYpF
 
