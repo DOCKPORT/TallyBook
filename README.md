@@ -32,23 +32,13 @@
 
 ### Installation (AppImage)
 
-1.  Download the latest `.AppImage` from the **Releases** page.
-2.  Make the file executable:
-    ```bash
-    chmod +x TallyBook-x86_64.AppImage
-    ```
-3.  Run the application:
-    ```bash
-    ./TallyBook-x86_64.AppImage
-    ```
+1. Download the latest `.AppImage` from the **Releases** page.
+2. Make Executable: Right-click the downloaded file, select Properties, navigate to the Permissions tab, and check "Allow executing file as program".
+3. Launch: Double-click the file to launch it. On first run, the program automatically creates your finance ledger database. If you want to integrate it, it will also generate a desktop entry so it is fully integrated into your Linux desktop environment.
 
 ---
 
-## 📜 License
 
-Copyright © 2026 **TallyBook by DockPort**. All Rights Reserved.
-
----
 
 ## 🤝 Contributing
 
