@@ -8,7 +8,7 @@
 
 ---
 
-## 🚀 Features
+##  Features
 
 *   **Local-First Architecture:** Your data is stored locally, ensuring maximum privacy and offline availability.
 *   **Bookkeeping:** Effortlessly track daily transactions and maintain accurate ledgers.
@@ -18,7 +18,7 @@
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Dashboard Overview
 ![Main Dashboard](https://github.com/user-attachments/assets/575ad229-2c0a-4adc-aae1-1a159f4fd46b)
@@ -28,7 +28,7 @@
 
 ---
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Installation (AppImage)
 
