@@ -22,6 +22,19 @@ class LedgerDB:
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
         
+        # Enable WAL mode for crash-safe transaction durability
+        self.cursor.execute("PRAGMA journal_mode=WAL")
+        # Reduce the WAL autocheckpoint limit to 10 pages
+        self.cursor.execute("PRAGMA wal_autocheckpoint=10")
+        # synchronous=NORMAL is sufficient for durability in WAL mode
+        self.cursor.execute("PRAGMA synchronous=NORMAL")
+        
+        # Perform integrity check to detect corruption from previous crashes
+        self.cursor.execute("PRAGMA integrity_check")
+        integrity_result = self.cursor.fetchone()
+        if integrity_result and integrity_result[0] != "ok":
+            print(f"WARNING: Database integrity check failed: {integrity_result[0]}")
+        
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS accounts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
