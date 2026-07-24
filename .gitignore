@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+*.egg
+venv/
+.venv/
+env/
+
+# PyInstaller
+build/
+
+# AppImage
+*.AppImage
+appimagetool
+TallyBook.AppDir/
+
+# Runtime
+tallybook.db
+*.log
+
+# Profiling / Reports
+flamegraph_*
+memray*
+
+# Project docs (local only)
+memory-bank/
+
+# Dev notes
+cursor_methods.txt
+db_methods.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build scripts placeholder
