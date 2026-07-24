@@ -36,4 +36,8 @@ db_methods.txt
 .DS_Store
 Thumbs.db
 
+# IDE / Editor
+.vscode/
+.clinerules/
+
 # Build scripts placeholder
