@@ -12,6 +12,7 @@ from scaling import calculate_scale_factor, scaled
 import CSV_EXPORTER as csv_exporter
 import backup_exporter
 from currency import format_number_as_currency, format_percentage, to_internal, from_internal
+from ledger_processor import process_and_filter_ledger
 import paths
 import dialogs
 from PySide6.QtWidgets import (
@@ -3688,71 +3689,15 @@ class TallyBookWindow(QMainWindow):
         
         transactions = self.cursor.fetchall()
         
-        # 2. Process all transactions to calculate running balances
-        running_balance = current_balance
-        all_tx_data = []
-        
-        for tx_id, date, type_, pay_desc, item_desc, amount, count, all_desc in transactions:
-            # Format Description
-            desc = pay_desc if pay_desc else ""
-            if count == 1:
-                if desc and item_desc:
-                    desc = f"{desc} - {item_desc}"
-                elif item_desc:
-                    desc = item_desc
-            else:
-                if not desc:
-                    desc = f"Transaction ({count} items)"
-            
-            # Store data with its calculated running balance
-            tx_data = {
-                'tx_id': tx_id,
-                'date': date,
-                'type': type_,
-                'desc': desc,
-                'amount': amount,
-                'balance': running_balance,
-                'raw_pay_desc': pay_desc if pay_desc else "",
-                'raw_item_desc': item_desc if item_desc else "",
-                'all_desc': all_desc if all_desc else ""
-            }
-            all_tx_data.append(tx_data)
-            
-            # Update running balance for the *next* (older) transaction
-            if type_ in ["Payment", "Transfer Out"]:
-                running_balance += amount
-            elif type_ in ["Receipt", "Transfer In"]:
-                running_balance -= amount
-
-        # 3. Filter transactions based on search input
+        # 2+3. Process transactions (running balances) and filter by search
+        #      Uses native Rust module with Python fallback.
         search_text = ""
         if hasattr(self, 'account_view_search_input'):
             search_text = self.account_view_search_input.text().strip().lower()
 
-        if search_text:
-            filtered_tx_data = []
-            for tx in all_tx_data:
-                if "Transfer" in tx['type']:
-                    if search_text in tx['raw_item_desc'].lower():
-                        filtered_tx_data.append(tx)
-                else:
-                    match_pay = search_text in tx['raw_pay_desc'].lower()
-                    match_items = search_text in tx['all_desc'].lower()
-                    
-                    if match_pay or match_items:
-                        # If matched on items and the search text isn't already visible in the description
-                        if match_items and search_text not in tx['desc'].lower():
-                            all_items = tx['all_desc'].split(',')
-                            matches = [i.strip() for i in all_items if search_text in i.lower()]
-                            if matches:
-                                matched_str = ", ".join(matches)
-                                if tx['raw_pay_desc']:
-                                    tx['desc'] = f"{tx['raw_pay_desc']} - {matched_str}"
-                                else:
-                                    tx['desc'] = matched_str
-                        filtered_tx_data.append(tx)
-        else:
-            filtered_tx_data = all_tx_data
+        filtered_tx_data = process_and_filter_ledger(
+            current_balance, transactions, search_text
+        )
 
         # 4. Apply Pagination
         total_matches = len(filtered_tx_data)

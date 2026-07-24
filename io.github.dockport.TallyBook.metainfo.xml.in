@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.dockport.TallyBook</id>
+
+  <name>TallyBook</name>
+  <summary>Financial Ledger Application</summary>
+
+  <developer id="io.github.dockport">
+    <name>DockPort</name>
+  </developer>
+
+  <description>
+    <p>
+      TallyBook is a personal financial ledger application that helps you track
+      your income and expenses. It provides an intuitive interface for recording
+      transactions, categorizing entries, and visualizing your financial data
+      with charts and reports.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">tallybook.desktop</launchable>
+
+  <url type="homepage">https://dockport.github.io/</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/DOCKPORT/TallyBook/main/assets/Screenshot_2026-07-24_12-40-07.png</image>
+      <caption>Main application window showing the financial ledger interface</caption>
+    </screenshot>
+  </screenshots>
+
+  <releases>
+    <release version="@APP_VERSION@"/>
+  </releases>
+
+  <categories>
+    <category>Finance</category>
+    <category>Office</category>
+  </categories>
+
+  <keywords>
+    <keyword>finance</keyword>
+    <keyword>ledger</keyword>
+    <keyword>accounting</keyword>
+    <keyword>expenses</keyword>
+    <keyword>budget</keyword>
+  </keywords>
+
+  <project_license>MIT</project_license>
+</component>

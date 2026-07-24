@@ -41,3 +41,7 @@ Thumbs.db
 .clinerules/
 
 # Build scripts placeholder
+
+# Rust native module build artifacts
+rust_modules/*/target/
+rust_modules/*/Cargo.lock

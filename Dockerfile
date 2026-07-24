@@ -44,14 +44,39 @@ COPY requirements.txt .
 RUN pip3 install --no-cache-dir PyInstaller
 RUN pip3 install --no-cache-dir -r requirements.txt
 
+# Install Rust toolchain for building native modules
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN cargo install maturin
+
+# Build the native Rust balance_compute module
+COPY rust_modules/ rust_modules/
+RUN cd rust_modules/balance_compute && maturin build --release --find-interpreter
+RUN pip3 install --no-cache-dir rust_modules/balance_compute/target/wheels/balance_compute-*.whl
+
+# Copy the AppStream metainfo template (will be processed during build)
+COPY io.github.dockport.TallyBook.metainfo.xml.in .
+
 # Create a build script inside the container
 RUN echo '#!/bin/bash\n\
 set -e\n\
+# Build the native Rust balance_compute module\n\
+cd /build/rust_modules/balance_compute\n\
+maturin build --release --find-interpreter\n\
+pip3 install /build/rust_modules/balance_compute/target/wheels/balance_compute-*.whl\n\
 # Build the binary\n\
-pyinstaller --noconfirm TallyBook.spec\n\
+cd /build && pyinstaller --noconfirm TallyBook.spec\n\
 # Prepare AppDir\n\
 mkdir -p TallyBook.AppDir/usr/bin\n\
+mkdir -p TallyBook.AppDir/usr/share/metainfo\n\
 cp dist/TallyBook TallyBook.AppDir/usr/bin/TallyBook\n\
+# Extract version from version.py and generate AppStream metainfo\n\
+APP_VERSION=$(grep ^APP_VERSION modules/version.py | cut -d\\" -f2)\n\
+echo "Building AppStream metainfo for version $APP_VERSION ..."\n\
+sed "s/@APP_VERSION@/$APP_VERSION/g" io.github.dockport.TallyBook.metainfo.xml.in \\\n\
+    > TallyBook.AppDir/usr/share/metainfo/io.github.dockport.TallyBook.metainfo.xml\n\
+# Validate the metainfo file\n\
+appstream-util validate TallyBook.AppDir/usr/share/metainfo/io.github.dockport.TallyBook.metainfo.xml\n\
 # Download appimagetool if not present\n\
 if [ ! -f appimagetool ]; then\n\
     wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool\n\
