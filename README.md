@@ -1,8 +1,4 @@
-<p align="center">
-  <img src="tallybook_app_icon.png" alt="TallyBook Logo" width="80">
-</p>
-
-# TallyBook
+# <img src="tallybook_app_icon.png" alt="TallyBook Logo" width="56" style="vertical-align: middle; margin-right: 12px;"> TallyBook
 
 A fast, local-first finance ledger for Linux
 
