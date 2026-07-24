@@ -44,15 +44,10 @@ COPY requirements.txt .
 RUN pip3 install --no-cache-dir PyInstaller
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Install Rust toolchain for building native modules
+# Install Rust toolchain for building native modules (used at runtime with mounted source)
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN cargo install maturin
-
-# Build the native Rust balance_compute module
-COPY rust_modules/ rust_modules/
-RUN cd rust_modules/balance_compute && maturin build --release --find-interpreter
-RUN pip3 install --no-cache-dir rust_modules/balance_compute/target/wheels/balance_compute-*.whl
 
 # Copy the AppStream metainfo template (will be processed during build)
 COPY io.github.dockport.TallyBook.metainfo.xml.in .
@@ -60,10 +55,12 @@ COPY io.github.dockport.TallyBook.metainfo.xml.in .
 # Create a build script inside the container
 RUN echo '#!/bin/bash\n\
 set -e\n\
-# Build the native Rust balance_compute module\n\
-cd /build/rust_modules/balance_compute\n\
-maturin build --release --find-interpreter\n\
-pip3 install /build/rust_modules/balance_compute/target/wheels/balance_compute-*.whl\n\
+# Build native Rust modules (source is mounted at runtime)\n\
+for crate in balance_compute calc_engine; do\n\
+    cd /build/rust_modules/$crate\n\
+    maturin build --release --find-interpreter\n\
+    pip3 install /build/rust_modules/$crate/target/wheels/*.whl\n\
+done\n\
 # Build the binary\n\
 cd /build && pyinstaller --noconfirm TallyBook.spec\n\
 # Prepare AppDir\n\

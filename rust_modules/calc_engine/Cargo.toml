@@ -1,0 +1,11 @@
+[package]
+name = "calc_engine"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "_calc_rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = "0.29.0"

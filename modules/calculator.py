@@ -1,5 +1,4 @@
-import math
-from asteval import Interpreter
+from _calc_rs import CalcEngine
 from PySide6.QtWidgets import (
     QDialog, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPlainTextEdit, QLineEdit, QPushButton,
@@ -74,13 +73,6 @@ STYLESHEET_TEMPLATE = """
 """
 
 
-BUILTIN_VARS = {
-    'sqrt': math.sqrt, 'abs': abs, 'round': round,
-    'pi': math.pi, 'e': math.e, 'pow': pow,
-    'sin': math.sin, 'cos': math.cos, 'tan': math.tan,
-}
-
-
 class CalculatorWindow(QDialog):
     """
     A standalone window for the Terminal Calculator.
@@ -130,8 +122,8 @@ class CalculatorWindow(QDialog):
         # Ctrl+L shortcut for Clear
         QShortcut(Qt.Key.Key_L | Qt.Modifier.CTRL, self, self._clear_history)
 
-        # Safe math interpreter
-        self.interp = Interpreter(usersyms=BUILTIN_VARS.copy())
+        # Safe math engine (native Rust)
+        self.engine = CalcEngine()
 
         self.calc_history.appendPlainText("TallyBook terminal calculator")
         self.calc_history.appendPlainText("---")
@@ -152,8 +144,8 @@ class CalculatorWindow(QDialog):
         self.calc_history.clear()
         self.calc_history.appendPlainText("Terminal Reset")
         self.calc_history.appendPlainText("---")
-        # Reset interpreter but keep builtins
-        self.interp = Interpreter(usersyms=BUILTIN_VARS.copy())
+        # Reset engine
+        self.engine = CalcEngine()
 
     def _format_result(self, val: float | int) -> str:
         """Format a numeric result nicely."""
@@ -170,13 +162,11 @@ class CalculatorWindow(QDialog):
 
         # Special vars command
         if text.lower() == 'vars':
-            user_vars = {
-                k: v for k, v in self.interp.symtable.items()
-                if not callable(v) and k != '__builtins__'
-            }
-            if user_vars:
-                for k, v in user_vars.items():
-                    self.calc_history.appendPlainText(f"  {k} = {self._format_result(v)}")
+            names = self.engine.list_vars()
+            if names:
+                for name in sorted(names):
+                    val = self.engine.get_var(name)
+                    self.calc_history.appendPlainText(f"  {name} = {self._format_result(val)}")
             else:
                 self.calc_history.appendPlainText("  (No variables)")
             self.calc_input.clear()
@@ -184,33 +174,15 @@ class CalculatorWindow(QDialog):
             return
 
         try:
-            # Handle percentage: convert standalone "50%" → "50/100"
-            # but leave "10 % 3" (modulo) alone
-            # Only match percent at end of a number
+            # Handle percentage: convert "50%" → "(50)/100" but leave "10 % 3" alone
             import re
             processed = re.sub(r'(\d+(?:\.\d+)?)%', r'(\1)/100', text)
 
-            result = self.interp(processed)
-
-            # asteval returns None for assignment statements
-            if result is None:
-                # Check if this was an assignment by looking for '='
-                if '=' in text:
-                    var_name = text.split('=', 1)[0].strip()
-                    if var_name in self.interp.symtable:
-                        val = self.interp.symtable[var_name]
-                        self.calc_history.appendPlainText(
-                            f"  {var_name} = {self._format_result(val)}"
-                        )
-            else:
-                self.calc_history.appendPlainText(f"  = {self._format_result(result)}")
+            result = self.engine.eval(processed)
+            self.calc_history.appendPlainText(f"  = {self._format_result(result)}")
 
         except Exception as e:
             msg = str(e)
-            # Clean up asteval's verbose error messages
-            if msg.startswith("NameError: name '") and msg.endswith("' is not defined"):
-                # Already readable
-                pass
             self.calc_history.appendPlainText(f"  Error: {msg}")
 
         self.calc_input.clear()

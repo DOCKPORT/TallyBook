@@ -8,7 +8,7 @@ TallyBook is a desktop financial ledger application. It provides a comprehensive
 
 **Download** — Get the latest `TallyBook-x86_64.AppImage` from the [GitHub Releases](https://github.com/DOCKPORT/TallyBook/releases) page. Save it in a dedicated folder like `~/Applications`.
 
-**Make Executable** — Open a terminal in the folder and run:
+**Make Executable** — You can either right-click the AppImage, go to *Properties → Permissions*, and check *"Allow executing file as program"*, or open a terminal in the folder and run:
 ```
 chmod +x TallyBook-x86_64.AppImage
 ```
@@ -25,6 +25,7 @@ chmod +x TallyBook-x86_64.AppImage
 - Per-Account Ledger
 - Monthly Analytics
 - Sankey Flow Diagram
+- SQLite Database
 - Budget Planner
 - Terminal Calculator
 - CSV Export
