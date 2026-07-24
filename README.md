@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="tallybook_app_icon.png" alt="TallyBook Logo" width="80">
+</p>
+
 # TallyBook
 
 A fast, local-first finance ledger for Linux
@@ -13,7 +17,7 @@ TallyBook is a desktop financial ledger application. It provides a comprehensive
 chmod +x TallyBook-x86_64.AppImage
 ```
 
-**Launch** — Double-click the file. On first run it will automatically create your database and optionally integrate with your desktop environment.
+**Launch** — Double-click the file. On first run it will automatically create your database and integrate with your desktop environment.
 
 **Updates** — Download the newest AppImage and replace your old one. Your ledger data is stored separately and will be found automatically.
 
