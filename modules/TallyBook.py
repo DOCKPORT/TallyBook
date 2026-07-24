@@ -4421,7 +4421,7 @@ class TallyBookWindow(QMainWindow):
         dialog = QDialog(self)
         dialog.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
         dialog.setWindowTitle("Report a Bug / Feedback")
-        dialog.setFixedSize(self.s(640), self.s(250))
+        dialog.setFixedSize(self.s(640), self.s(280))
         dialog.setStyleSheet(f"""
             QDialog {{
                 background-color: #1e1e1e;
@@ -4453,15 +4453,33 @@ class TallyBookWindow(QMainWindow):
         details_layout.setContentsMargins(0, 0, 0, 0)
         details_layout.setSpacing(self.s(10))
         
-        # Email row
+        # GitHub link row
         row_widget = QWidget()
         row_layout = QHBoxLayout(row_widget)
         row_layout.setContentsMargins(0, 0, 0, 0)
         row_layout.setSpacing(self.s(8))
         
-        lbl = QLabel("Email:")
+        lbl = QLabel("GitHub:")
         lbl.setStyleSheet(f"font-size: {self.s(15)}px; font-weight: bold; color: #ff9800; min-width: {self.s(80)}px;")
         row_layout.addWidget(lbl)
+        
+        github_url = "https://github.com/DOCKPORT/TallyBook"
+        link_label = QLabel(f'<a href="{github_url}" style="color: #58a6ff; text-decoration: none;">{github_url}</a>')
+        link_label.setOpenExternalLinks(True)
+        link_label.setStyleSheet(f"font-size: {self.s(14)}px; background: transparent;")
+        row_layout.addWidget(link_label, 1)
+        
+        details_layout.addWidget(row_widget)
+        
+        # Email row
+        email_row = QWidget()
+        email_layout = QHBoxLayout(email_row)
+        email_layout.setContentsMargins(0, 0, 0, 0)
+        email_layout.setSpacing(self.s(8))
+        
+        email_lbl = QLabel("Email:")
+        email_lbl.setStyleSheet(f"font-size: {self.s(15)}px; font-weight: bold; color: #ff9800; min-width: {self.s(80)}px;")
+        email_layout.addWidget(email_lbl)
         
         email_address = "DOCKPORT_DEV@PROTONMAIL.COM"
         addr_field = QLineEdit(email_address)
@@ -4477,7 +4495,7 @@ class TallyBookWindow(QMainWindow):
                 font-family: 'Fira Code', monospace;
             }}
         """)
-        row_layout.addWidget(addr_field, 1)
+        email_layout.addWidget(addr_field, 1)
         
         copy_btn = QPushButton("Copy")
         copy_btn.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -4536,9 +4554,9 @@ class TallyBookWindow(QMainWindow):
             QTimer.singleShot(1000, reset_style)
         
         copy_btn.clicked.connect(on_copy)
-        row_layout.addWidget(copy_btn)
+        email_layout.addWidget(copy_btn)
         
-        details_layout.addWidget(row_widget)
+        details_layout.addWidget(email_row)
         layout.addWidget(details_container)
         
         dialog.exec()

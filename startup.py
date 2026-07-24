@@ -2,9 +2,8 @@
 import os
 import sys
 import shutil
-from PySide6.QtWidgets import QApplication, QMessageBox, QPushButton
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QIcon, QFontDatabase
+from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QFontDatabase
 import paths
 
 # Ensure modules directory is on the import path
@@ -14,7 +13,7 @@ if modules_dir not in sys.path:
 
 
 def handle_appimage_integration():
-    """Checks if running as an AppImage and handles desktop integration."""
+    """Automatically integrates the AppImage into the system (desktop entry)."""
     appimage_path = os.environ.get('APPIMAGE')
     if not appimage_path:
         return  # Not running as an AppImage
@@ -23,70 +22,22 @@ def handle_appimage_integration():
     if os.path.exists(desktop_file_path):
         return  # Already integrated
 
-    # Calculate scale factor for standalone dialog
-    screen = QApplication.primaryScreen()
-    screen_geometry = screen.geometry()
-    scale_factor = max(0.8, min(screen_geometry.width() / 1920, screen_geometry.height() / 1080))
-    def s(val):
-        return int(val * scale_factor)
+    try:
+        # 1. Ensure directories exist
+        apps_dir = os.path.expanduser("~/.local/share/applications")
+        icons_dir = os.path.expanduser("~/.local/share/icons")
+        os.makedirs(apps_dir, exist_ok=True)
+        os.makedirs(icons_dir, exist_ok=True)
 
-    def show_styled_msg(title, text, info_text=None, icon=QMessageBox.Icon.Question, buttons=QMessageBox.StandardButton.Ok):
-        msg = QMessageBox()
-        msg.setWindowIcon(QIcon(paths.resource_path("tallybook_app_icon.png")))
-        msg.setIcon(icon)
-        msg.setWindowTitle(title)
-        msg.setText(text)
-        if info_text:
-            msg.setInformativeText(info_text)
-        msg.setStandardButtons(buttons)
-        msg.setDefaultButton(QMessageBox.StandardButton.Yes if buttons & QMessageBox.StandardButton.Yes else QMessageBox.StandardButton.Ok)
+        # 2. Copy icon
+        bundled_icon = paths.resource_path("tallybook_app_icon.png")
+        target_icon = os.path.join(icons_dir, "tallybook.png")
         
-        msg.setStyleSheet(f"""
-            QMessageBox {{ background-color: #1e1e1e; }}
-            QLabel {{ color: #ffffff; font-size: {s(14)}px; padding: {s(10)}px; }}
-            QPushButton {{ 
-                background-color: #444; color: white; border: 1px solid #666; 
-                padding: {s(6)}px {s(16)}px; border-radius: {s(4)}px; 
-                font-size: {s(13)}px; min-width: {s(80)}px; font-weight: bold;
-            }}
-            QPushButton:hover {{ background-color: #555; }}
-        """)
-        
-        for btn in msg.findChildren(QPushButton):
-            btn.setIcon(QIcon())
-            btn.setCursor(Qt.CursorShape.PointingHandCursor)
-            s_btn = msg.standardButton(btn)
-            if s_btn in [QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Yes]:
-                btn.setStyleSheet(f"background-color: #2d5a27; border: 1px solid #3d8c34; padding: {s(6)}px {s(16)}px; border-radius: {s(4)}px;")
-            elif s_btn in [QMessageBox.StandardButton.No, QMessageBox.StandardButton.Cancel, QMessageBox.StandardButton.Close]:
-                btn.setStyleSheet(f"background-color: #8a2b2b; border: 1px solid #b71c1c; padding: {s(6)}px {s(16)}px; border-radius: {s(4)}px;")
-        
-        return msg.exec()
+        if os.path.exists(bundled_icon):
+            shutil.copy2(bundled_icon, target_icon)
 
-    # Prompt user for integration
-    if show_styled_msg(
-        "System Integration", 
-        "TallyBook is not integrated with your system.",
-        "Would you like to add it to your application menu and dock?",
-        QMessageBox.Icon.Question,
-        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-    ) == QMessageBox.StandardButton.Yes:
-        try:
-            # 1. Ensure directories exist
-            apps_dir = os.path.expanduser("~/.local/share/applications")
-            icons_dir = os.path.expanduser("~/.local/share/icons")
-            os.makedirs(apps_dir, exist_ok=True)
-            os.makedirs(icons_dir, exist_ok=True)
-
-            # 2. Extract/Save Icon
-            bundled_icon = paths.resource_path("tallybook_app_icon.png")
-            target_icon = os.path.join(icons_dir, "tallybook.png")
-            
-            if os.path.exists(bundled_icon):
-                shutil.copy2(bundled_icon, target_icon)
-
-            # 3. Create Desktop Entry
-            desktop_content = f"""[Desktop Entry]
+        # 3. Create Desktop Entry
+        desktop_content = f"""[Desktop Entry]
 Name=TallyBook
 Exec={appimage_path}
 Icon={target_icon}
@@ -96,12 +47,12 @@ Terminal=false
 Comment=Financial Ledger App
 StartupWMClass=TallyBook
 """
-            with open(desktop_file_path, 'w') as f:
-                f.write(desktop_content)
-                
-            show_styled_msg("Success", "TallyBook has been integrated with your system!", icon=QMessageBox.Icon.Information)
-        except Exception as e:
-            show_styled_msg("Error", f"Failed to integrate: {str(e)}", icon=QMessageBox.Icon.Warning)
+        with open(desktop_file_path, 'w') as f:
+            f.write(desktop_content)
+
+    except Exception as e:
+        # Silently log integration failure; non-critical
+        print(f"TallyBook: Failed to create desktop entry: {e}", file=sys.stderr)
 
 def main():
     """Main entry point for the application."""
