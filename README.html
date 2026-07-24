@@ -237,6 +237,27 @@
             margin-right: 0.4rem;
         }
 
+        /* Screenshot */
+        .screenshot-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.5rem;
+            transition: border-color 0.2s;
+            overflow: hidden;
+        }
+
+        .screenshot-card:hover {
+            border-color: var(--accent);
+        }
+
+        .screenshot-img {
+            width: 100%;
+            height: auto;
+            border-radius: calc(var(--radius) - 4px);
+            display: block;
+        }
+
         /* Footer */
         .footer-meta {
             margin-top: 3rem;
@@ -281,7 +302,7 @@
 
     <!-- Description -->
     <div class="section">
-        <p>TallyBook is a desktop financial ledger application. It provides a comprehensive double-entry bookkeeping system for tracking personal or small business finances, wrapped in a dark-themed interface with orange accents.</p>
+        <p>TallyBook is a desktop financial ledger application. It provides a comprehensive double-entry bookkeeping system for tracking personal or small business finances, wrapped in a dark-themed interface.</p>
     </div>
 
     <!-- Quick Start -->
@@ -326,6 +347,14 @@
             <div class="feature-item"><span class="icon">◆</span>Backup & Restore</div>
             <div class="feature-item"><span class="icon">◆</span>Dark Theme</div>
             <div class="feature-item"><span class="icon">◆</span>Custom Currency</div>
+        </div>
+    </div>
+
+    <!-- Screenshot -->
+    <div class="section">
+        <h2><span class="arrow">⤑</span> Screenshot</h2>
+        <div class="screenshot-card">
+            <img src="assets/Screenshot_2026-07-24_12-40-07.png" alt="TallyBook Screenshot" class="screenshot-img">
         </div>
     </div>
 
