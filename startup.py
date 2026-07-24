@@ -12,7 +12,6 @@ modules_dir = os.path.join(os.path.dirname(__file__), 'modules')
 if modules_dir not in sys.path:
     sys.path.insert(0, modules_dir)
 
-from TallyBook import TallyBookWindow
 
 def handle_appimage_integration():
     """Checks if running as an AppImage and handles desktop integration."""
@@ -106,6 +105,9 @@ StartupWMClass=TallyBook
 
 def main():
     """Main entry point for the application."""
+    # Import TallyBookWindow here (after sys.path is set) to satisfy ruff E402
+    from TallyBook import TallyBookWindow
+
     # Create the Application instance
     app = QApplication(sys.argv)
     app.setApplicationName("TallyBook")
