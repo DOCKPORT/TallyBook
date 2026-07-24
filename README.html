@@ -275,7 +275,7 @@
         <img class="repo-logo" src="tallybook_app_icon.png" alt="TallyBook">
         <div class="repo-header-text">
             <h1>TallyBook</h1>
-            <p>A fast, local-first finance ledger for Linux &mdash; <span>v1.0.1</span></p>
+            <p>A fast, local-first finance ledger for Linux</p>
         </div>
     </div>
 
@@ -295,14 +295,26 @@
     <!-- Quick Start -->
     <div class="section">
         <h2><span class="arrow">⤑</span> Quick Start</h2>
-        <div class="code-block">
-            <span class="comment"># Clone and run from source</span><br>
-            <span class="cmd">git clone</span> https://github.com/DOCKPORT/TallyBook.git<br>
-            <span class="cmd">cd</span> TallyBook<br><br>
-            <span class="comment"># Install dependencies</span><br>
-            <span class="cmd">pip install</span> -r requirements.txt<br><br>
-            <span class="comment"># Launch</span><br>
-            <span class="cmd">python</span> startup.py
+        <div class="grid-2">
+            <div class="card">
+                <h3>Download</h3>
+                <p>Get the latest <strong>TallyBook-x86_64.AppImage</strong> from the <a href="https://github.com/DOCKPORT/TallyBook/releases" target="_blank" rel="noopener" style="color:var(--accent);">GitHub Releases</a> page. Save it in a dedicated folder like <span style="font-family:'Fira Code',monospace;font-size:0.82rem;">~/Applications</span>.</p>
+            </div>
+            <div class="card">
+                <h3>Make Executable</h3>
+                <p>Open a terminal in the folder where you saved the AppImage and run:</p>
+                <div class="code-block" style="margin-top:0.6rem;font-size:0.78rem;">
+                    <span class="cmd">chmod +x</span> TallyBook-x86_64.AppImage
+                </div>
+            </div>
+            <div class="card">
+                <h3>Launch</h3>
+                <p>Double-click the file to launch. On first run, it will automatically create your database and optionally integrate with your desktop environment (application menu & dock).</p>
+            </div>
+            <div class="card">
+                <h3>Updates</h3>
+                <p>Download the newest AppImage version and replace your old one. Your ledger data is stored separately and will be found automatically.</p>
+            </div>
         </div>
     </div>
 
