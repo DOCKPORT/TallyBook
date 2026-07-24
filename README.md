@@ -35,7 +35,3 @@ chmod +x TallyBook-x86_64.AppImage
 ## ⤑ Screenshot
 
 ![TallyBook Screenshot](assets/Screenshot_2026-07-24_12-40-07.png)
-
----
-
-© 2025 DockPort — dockport_dev@protonmail.com · [dockport.github.io/tallybook](https://dockport.github.io/tallybook)
