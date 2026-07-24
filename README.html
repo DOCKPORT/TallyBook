@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TallyBook — README</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --surface: #1a1a1a;
+            --border: #2a2a2a;
+            --text: #e0e0e0;
+            --muted: #888;
+            --accent: #ff9500;
+            --accent-dim: rgba(255, 149, 0, 0.08);
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .repo-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .repo-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius);
+            flex-shrink: 0;
+        }
+
+        .repo-header-text h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--accent);
+        }
+
+        .repo-header-text p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            font-weight: 300;
+            margin-top: 0.2rem;
+        }
+
+        .repo-header-text p span {
+            color: var(--text);
+        }
+
+        /* Badge row */
+        .badge-row {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 0.3rem 0.9rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.02em;
+        }
+
+        .badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h2 .arrow {
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+            font-weight: 400;
+        }
+
+        .section p, .section li {
+            color: var(--muted);
+            font-weight: 300;
+            font-size: 1rem;
+        }
+
+        .section p {
+            margin-bottom: 0.6rem;
+        }
+
+        /* Code block */
+        .code-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.4rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #ccc;
+            overflow-x: auto;
+            margin: 0.8rem 0;
+            line-height: 1.6;
+        }
+
+        .code-block .comment { color: #666; }
+        .code-block .cmd { color: var(--accent); }
+        .code-block .path { color: #6abf69; }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.4rem;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+
+        .card p, .card li {
+            font-size: 0.9rem;
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card li {
+            padding: 0.15rem 0;
+        }
+
+        .card li::before {
+            content: "→ ";
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Tree */
+        .tree {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.85;
+            color: #bbb;
+        }
+
+        .tree .dir { color: var(--accent); }
+        .tree .file { color: #ccc; }
+        .tree .ignored { color: #555; }
+        .tree .indent { padding-left: 1.5rem; }
+        .tree .indent2 { padding-left: 3rem; }
+
+        .tree .sep {
+            border-top: 1px dashed var(--border);
+            margin: 0.6rem 0;
+        }
+
+        /* Feature list */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.6rem;
+            margin: 0.8rem 0;
+        }
+
+        .feature-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        .feature-item .icon {
+            color: var(--accent);
+            margin-right: 0.4rem;
+        }
+
+        /* Footer */
+        .footer-meta {
+            margin-top: 3rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .footer-meta a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer-meta a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .features { grid-template-columns: 1fr; }
+            .repo-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Header -->
+    <div class="repo-header">
+        <img class="repo-logo" src="tallybook_app_icon.png" alt="TallyBook">
+        <div class="repo-header-text">
+            <h1>TallyBook</h1>
+            <p>A fast, local-first finance ledger for Linux &mdash; <span>v1.0.1</span></p>
+        </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="badge-row">
+        <span class="badge"><span class="dot"></span> Python / PySide6</span>
+        <span class="badge"><span class="dot"></span> SQLite3</span>
+        <span class="badge"><span class="dot"></span> AppImage</span>
+        <span class="badge"><span class="dot"></span> Linux</span>
+    </div>
+
+    <!-- Description -->
+    <div class="section">
+        <p>TallyBook is a desktop financial ledger application built with Python and PySide6. It provides a comprehensive double-entry bookkeeping system for tracking personal or small business finances, wrapped in a dark-themed interface with orange accents.</p>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="section">
+        <h2><span class="arrow">⤑</span> Quick Start</h2>
+        <div class="code-block">
+            <span class="comment"># Clone and run from source</span><br>
+            <span class="cmd">git clone</span> https://github.com/DOCKPORT/TallyBook.git<br>
+            <span class="cmd">cd</span> TallyBook<br><br>
+            <span class="comment"># Install dependencies</span><br>
+            <span class="cmd">pip install</span> -r requirements.txt<br><br>
+            <span class="comment"># Launch</span><br>
+            <span class="cmd">python</span> startup.py
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="section">
+        <h2><span class="arrow">⤑</span> Features</h2>
+        <div class="features">
+            <div class="feature-item"><span class="icon">◆</span>Account Management</div>
+            <div class="feature-item"><span class="icon">◆</span>Receipts & Payments</div>
+            <div class="feature-item"><span class="icon">◆</span>Fund Transfers</div>
+            <div class="feature-item"><span class="icon">◆</span>Per-Account Ledger</div>
+            <div class="feature-item"><span class="icon">◆</span>Monthly Analytics</div>
+            <div class="feature-item"><span class="icon">◆</span>Sankey Flow Diagram</div>
+            <div class="feature-item"><span class="icon">◆</span>Budget Planner</div>
+            <div class="feature-item"><span class="icon">◆</span>Terminal Calculator</div>
+            <div class="feature-item"><span class="icon">◆</span>CSV Export</div>
+            <div class="feature-item"><span class="icon">◆</span>Backup & Restore</div>
+            <div class="feature-item"><span class="icon">◆</span>Dark Theme</div>
+            <div class="feature-item"><span class="icon">◆</span>Custom Currency</div>
+        </div>
+    </div>
+
+    <!-- Repository Structure -->
+    <div class="section">
+        <h2><span class="arrow">⤑</span> Repository Structure</h2>
+        <div class="code-block tree">
+            <span class="dir">TallyBook/</span><br>
+            ├── <span class="file">startup.py</span>          <span class="comment"># Entry point</span><br>
+            ├── <span class="file">paths.py</span>             <span class="comment"># Path resolution</span><br>
+            ├── <span class="file">TallyBook.spec</span>       <span class="comment"># PyInstaller spec</span><br>
+            ├── <span class="file">Dockerfile</span>           <span class="comment"># Build environment</span><br>
+            ├── <span class="file">requirements.txt</span>     <span class="comment"># Dependencies</span><br>
+            ├── <span class="file">tallybook_app_icon.png</span><br>
+            ├── <span class="file">README.html</span><br>
+            ├── <span class="file">.gitignore</span><br>
+            <span class="sep"></span>
+            ├── <span class="dir">modules/</span>             <span class="comment"># Source modules</span><br>
+            <span class="indent">├── <span class="file">TallyBook.py</span>        <span class="comment"># Main application (~5,500 lines)</span></span><br>
+            <span class="indent">├── <span class="file">ledger_db.py</span>        <span class="comment"># Database backend</span></span><br>
+            <span class="indent">├── <span class="file">calculator.py</span>       <span class="comment"># Calculator dialog</span></span><br>
+            <span class="indent">├── <span class="file">dialogs.py</span>          <span class="comment"># Modern dialogs</span></span><br>
+            <span class="indent">├── <span class="file">currency.py</span>         <span class="comment"># Currency formatting</span></span><br>
+            <span class="indent">├── <span class="file">scaling.py</span>          <span class="comment"># DPI scaling</span></span><br>
+            <span class="indent">├── <span class="file">color_system.py</span>     <span class="comment"># Color definitions</span></span><br>
+            <span class="indent">├── <span class="file">version.py</span>          <span class="comment"># Version string</span></span><br>
+            <span class="indent">├── <span class="file">backup_exporter.py</span>  <span class="comment"># Backup utilities</span></span><br>
+            <span class="indent">└── <span class="file">CSV_EXPORTER.py</span>      <span class="comment"># CSV export</span></span><br>
+            <span class="sep"></span>
+            ├── <span class="dir">scripts/</span>              <span class="comment"># Build & utility scripts</span><br>
+            <span class="indent">├── <span class="file">build_with_docker.sh</span></span><br>
+            <span class="indent">├── <span class="file">integrate_appimage.sh</span></span><br>
+            <span class="indent">├── <span class="file">run_tallybook.sh</span></span><br>
+            <span class="indent">└── <span class="file">TallyBookLogo.py</span></span><br>
+            <span class="sep"></span>
+            └── <span class="dir">assets/</span>               <span class="comment"># Static assets</span><br>
+            <span class="indent">├── <span class="dir">fonts/</span>             <span class="comment"># Bundled Fira Code</span></span><br>
+            <span class="indent">└── <span class="dir">QR/</span>               <span class="comment"># Donation QR codes</span></span>
+        </div>
+    </div>
+
+    <!-- Building -->
+    <div class="section">
+        <h2><span class="arrow">⤑</span> Building</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>AppImage (Docker)</h3>
+                <p>Build a portable Linux AppImage with maximum GLIBC compatibility.</p>
+                <div class="code-block" style="margin-top:0.6rem;font-size:0.78rem;">
+                    <span class="cmd">./scripts/build_with_docker.sh</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>PyInstaller (Local)</h3>
+                <p>Build a standalone binary directly on your system.</p>
+                <div class="code-block" style="margin-top:0.6rem;font-size:0.78rem;">
+                    <span class="cmd">pyinstaller</span> TallyBook.spec
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="section">
+        <h2><span class="arrow">⤑</span> Tech Stack</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>Runtime</h3>
+                <ul>
+                    <li>Python 3</li>
+                    <li>PySide6 (Qt for Python)</li>
+                    <li>SQLite3</li>
+                    <li>Pillow (PIL)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Distribution</h3>
+                <ul>
+                    <li>PyInstaller</li>
+                    <li>AppImage</li>
+                    <li>Docker (Ubuntu 22.04)</li>
+                    <li>Fira Code (bundled font)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-meta">
+        <span>&copy; 2025 DockPort &mdash; dockport_dev@protonmail.com</span>
+        <a href="https://dockport.github.io/tallybook" target="_blank" rel="noopener">dockport.github.io/tallybook</a>
+    </div>
+
+</div>
+</body>
+</html>
