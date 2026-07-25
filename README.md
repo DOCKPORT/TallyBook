@@ -39,7 +39,7 @@ chmod +x TallyBook-x86_64.AppImage
 
 ## ⤑ Demo Video
 
-<video src="assets/TB_VIDEO.mp4" controls width="100%" poster="assets/Screenshot_2026-07-24_12-40-07.png">
+<video src="https://raw.githubusercontent.com/DOCKPORT/TallyBook/main/assets/TB_VIDEO.mp4" controls width="100%" poster="https://raw.githubusercontent.com/DOCKPORT/TallyBook/main/assets/Screenshot_2026-07-24_12-40-07.png">
   Your browser does not support the video tag.
 </video>
 
