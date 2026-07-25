@@ -36,3 +36,11 @@ chmod +x TallyBook-x86_64.AppImage
 ## ⤑ Screenshot
 
 ![TallyBook Screenshot](assets/Screenshot_2026-07-24_12-40-07.png)
+
+## ⤑ Demo Video
+
+<video src="assets/TB_VIDEO.mp4" controls width="100%" poster="assets/Screenshot_2026-07-24_12-40-07.png">
+  Your browser does not support the video tag.
+</video>
+
+Music: <a href="https://breakingcopyright.com/song/sappheiros-willow">WILLOW</a> by Sappheiros | Creative Commons (BY 3.0) | <a href="https://creativecommons.org/licenses/by/3.0/">License</a>
