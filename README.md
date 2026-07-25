@@ -39,8 +39,6 @@ chmod +x TallyBook-x86_64.AppImage
 
 ## ⤑ Demo Video
 
-<video src="https://raw.githubusercontent.com/DOCKPORT/TallyBook/main/assets/TB_VIDEO.mp4" controls width="100%" poster="https://raw.githubusercontent.com/DOCKPORT/TallyBook/main/assets/Screenshot_2026-07-24_12-40-07.png">
-  Your browser does not support the video tag.
-</video>
+[![Watch the demo](assets/Screenshot_2026-07-24_12-40-07.png)](https://github.com/DOCKPORT/TallyBook/blob/main/assets/TB_VIDEO.mp4)
 
 Music: <a href="https://breakingcopyright.com/song/sappheiros-willow">WILLOW</a> by Sappheiros | Creative Commons (BY 3.0) | <a href="https://creativecommons.org/licenses/by/3.0/">License</a>
