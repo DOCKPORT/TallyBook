@@ -40,7 +40,8 @@ Thumbs.db
 .vscode/
 .clinerules/
 
-# Build scripts placeholder
+# Build scripts (not source code)
+scripts/
 
 # Rust native module build artifacts
 rust_modules/*/target/
