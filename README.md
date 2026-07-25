@@ -33,12 +33,8 @@ chmod +x TallyBook-x86_64.AppImage
 - Dark Theme
 - Custom Currency
 
-## ⤑ Screenshot
+## ⤑ Screenshot & Demo
 
-![TallyBook Screenshot](assets/Screenshot_2026-07-24_12-40-07.png)
-
-## ⤑ Demo Video
-
-[![Watch the demo](assets/Screenshot_2026-07-24_12-40-07.png)](https://github.com/DOCKPORT/TallyBook/blob/main/assets/TB_VIDEO.mp4)
+[![TallyBook Screenshot](assets/Screenshot_2026-07-24_12-40-07.png)](https://www.youtube.com/watch?v=WoHEJRyk860)
 
 Music: <a href="https://breakingcopyright.com/song/sappheiros-willow">WILLOW</a> by Sappheiros | Creative Commons (BY 3.0) | <a href="https://creativecommons.org/licenses/by/3.0/">License</a>

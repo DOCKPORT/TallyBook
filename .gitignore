@@ -32,6 +32,9 @@ memory-bank/
 cursor_methods.txt
 db_methods.txt
 
+# Large assets (hosted externally)
+assets/TB_VIDEO.mp4
+
 # OS
 .DS_Store
 Thumbs.db
