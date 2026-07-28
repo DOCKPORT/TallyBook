@@ -1,9 +1,10 @@
-#!/usr/bin/env python3
 import os
-import sys
 import shutil
-from PySide6.QtWidgets import QApplication
+import sys
+
 from PySide6.QtGui import QFontDatabase
+from PySide6.QtWidgets import QApplication
+
 import paths
 
 # Ensure modules directory is on the import path
@@ -50,7 +51,7 @@ StartupWMClass=TallyBook
         with open(desktop_file_path, 'w') as f:
             f.write(desktop_content)
 
-    except Exception as e:
+    except (OSError, PermissionError) as e:
         # Silently log integration failure; non-critical
         print(f"TallyBook: Failed to create desktop entry: {e}", file=sys.stderr)
 
