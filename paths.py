@@ -3,7 +3,7 @@
 
 All path-related utility functions are collected here so they can be
 imported from any module without circular dependencies or duplication.
-"""
+"""  # noqa: EXE001
 
 import os
 import sys

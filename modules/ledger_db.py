@@ -1,7 +1,9 @@
-import sqlite3
-import os
 import datetime
+import os
+import sqlite3
+
 from PySide6.QtCore import QStandardPaths
+
 
 class LedgerDB:
     """Backend module for handling all TallyBook database interactions."""
@@ -86,13 +88,13 @@ class LedgerDB:
                 # 1. Migrate Accounts Table
                 self.cursor.execute("SELECT id, balance FROM accounts")
                 for acc_id, bal in self.cursor.fetchall():
-                    internal_bal = int(round(bal * 100))
+                    internal_bal = round(bal * 100)
                     self.cursor.execute("UPDATE accounts SET balance = ? WHERE id = ?", (internal_bal, acc_id))
                 
                 # 2. Migrate Transactions Table
                 self.cursor.execute("SELECT id, amount FROM transactions")
                 for tx_id, amt in self.cursor.fetchall():
-                    internal_amt = int(round(amt * 100))
+                    internal_amt = round(amt * 100)
                     self.cursor.execute("UPDATE transactions SET amount = ? WHERE id = ?", (internal_amt, tx_id))
                 
                 # 3. Mark as Migrated

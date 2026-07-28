@@ -7,8 +7,6 @@ without standard OS button icons, extracted from TallyBookWindow.
 
 from __future__ import annotations
 
-from typing import Tuple
-
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -18,7 +16,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QWidget,
 )
-
 from scaling import scaled
 
 
@@ -113,7 +110,7 @@ def show_modern_input(
     label: str,
     default: str = "",
     scale_factor: float = 1.0,
-) -> Tuple[str, bool]:
+) -> tuple[str, bool]:
     """Shows a styled QInputDialog without standard OS button icons.
 
     Args:

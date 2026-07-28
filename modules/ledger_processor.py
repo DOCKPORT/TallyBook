@@ -7,6 +7,7 @@ This replaces the inline logic in TallyBookWindow._load_account_ledger.
 
 from typing import Any
 
+
 def process_and_filter_ledger(
     current_balance: int,
     transactions: list[tuple],
@@ -25,7 +26,7 @@ def process_and_filter_ledger(
         raw_pay_desc, raw_item_desc, all_desc.
     """
     try:
-        from balance_compute import process_transactions, filter_transactions
+        from balance_compute import filter_transactions, process_transactions
 
         # Step 1: Compute running balances
         # Cast numeric fields to int — SQLite may return them as float

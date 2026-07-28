@@ -1,11 +1,16 @@
 from _calc_rs import CalcEngine
-from PySide6.QtWidgets import (
-    QDialog, QWidget, QVBoxLayout, QHBoxLayout,
-    QLabel, QPlainTextEdit, QLineEdit, QPushButton,
-)
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QShortcut
-
+from PySide6.QtWidgets import (
+    QDialog,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPlainTextEdit,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 STYLESHEET_TEMPLATE = """
     QDialog {{
@@ -147,7 +152,7 @@ class CalculatorWindow(QDialog):
         # Reset engine
         self.engine = CalcEngine()
 
-    def _format_result(self, val: float | int) -> str:
+    def _format_result(self, val: float) -> str:
         """Format a numeric result nicely."""
         if isinstance(val, float):
             return f"{val:g}"

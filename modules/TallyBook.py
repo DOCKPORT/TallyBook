@@ -1,63 +1,93 @@
 #!/usr/bin/env python3
-import sys
 import os
-import subprocess
 import shutil
 import sqlite3
+import sys
+
+import backup_exporter
+import CSV_EXPORTER as csv_exporter
+import dialogs
 import ledger_db
-from version import APP_VERSION
 from calculator import CalculatorWindow
 from color_system import color_for_percentage
-from scaling import calculate_scale_factor, scaled
-import CSV_EXPORTER as csv_exporter
-import backup_exporter
-from currency import format_number_as_currency, format_percentage, to_internal, from_internal
+from currency import (
+    format_number_as_currency,
+    format_percentage,
+    from_internal,
+    to_internal,
+)
 from ledger_processor import process_and_filter_ledger
-import paths
-import dialogs
+from PySide6.QtCharts import (
+    QBarCategoryAxis,
+    QBarSeries,
+    QBarSet,
+    QChart,
+    QChartView,
+    QValueAxis,
+)
+from PySide6.QtCore import (
+    QDate,
+    QDateTime,
+    QEasingCurve,
+    QPointF,
+    QPropertyAnimation,
+    QRect,
+    QRectF,
+    Qt,
+    QTimer,
+    QUrl,
+)
+from PySide6.QtGui import (
+    QColor,
+    QCursor,
+    QDesktopServices,
+    QFont,
+    QIcon,
+    QLinearGradient,
+    QPainter,
+    QPainterPath,
+    QPen,
+)
 from PySide6.QtWidgets import (
+    QAbstractItemView,
+    QAbstractSpinBox,
     QApplication,
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLabel,
-    QStatusBar,
+    QCalendarWidget,
+    QCheckBox,
+    QComboBox,
+    QDateEdit,
+    QDialog,
+    QDialogButtonBox,
+    QDoubleSpinBox,
+    QFileDialog,
+    QFormLayout,
     QFrame,
+    QGraphicsOpacityEffect,
+    QGridLayout,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QLineEdit,
+    QListView,
+    QMainWindow,
+    QMessageBox,
     QPushButton,
+    QScrollArea,
+    QSizePolicy,
+    QSpinBox,
+    QSplitter,
     QStackedWidget,
     QTableWidget,
     QTableWidgetItem,
-    QHeaderView,
-    QLineEdit,
-    QAbstractItemView,
-    QDialog,
-    QComboBox,
-    QDialogButtonBox,
-    QFormLayout,
-    QMessageBox,
-    QDoubleSpinBox,
-    QDateEdit,
-    QAbstractSpinBox,
-    QCheckBox,
-    QScrollArea,
-    QGridLayout,
-    QSpinBox,
     QToolTip,
-    QFileDialog,
-    QSizePolicy,
-    QSplitter,
-    QListView,
-    QCalendarWidget,
-    QGraphicsOpacityEffect
+    QVBoxLayout,
+    QWidget,
 )
-from PySide6.QtCore import Qt, QDate, QDateTime, QUrl, QRect, QRectF, QPointF, QPropertyAnimation, QEasingCurve, QTimer
-from PySide6.QtGui import (
-    QColor, QPainter, QPen, QCursor, QDesktopServices,
-    QLinearGradient, QPainterPath, QIcon, QFont, QPixmap
-)
+from scaling import calculate_scale_factor, scaled
 from status_bar import StatusBarManager
-from PySide6.QtCharts import QChart, QChartView, QValueAxis, QBarSeries, QBarSet, QBarCategoryAxis
+
+import paths
+
 
 class QuantitySpinBox(QDoubleSpinBox):
     """Custom SpinBox that displays integers with thousands separator commas and handles negative zero."""
@@ -1095,7 +1125,7 @@ class TallyBookWindow(QMainWindow):
             self.budget_income_spin.setDecimals(self.currency_decimals)
             
         if hasattr(self, 'budget_inputs'):
-            for acc_id, item in self.budget_inputs.items():
+            for item in self.budget_inputs.values():
                 if item and len(item) > 0:
                     spin = item[0]
                     spin.setPrefix(f"{self.currency_symbol} ")
@@ -1247,7 +1277,6 @@ class TallyBookWindow(QMainWindow):
             self.accounts_table.setCellWidget(row, 4, actions_widget)
         
         # Total row removed as it's now always on top
-        pass
             
         # Also update analytics charts including Sankey (since it depends on all time data)
         self._update_analytics_data()
@@ -2216,9 +2245,7 @@ class TallyBookWindow(QMainWindow):
                                 with open(desktop_path, 'r') as f:
                                     desktop_content = f.read()
                                     # Check if this desktop file points to our current binary
-                                    if appimage_path and appimage_path in desktop_content:
-                                        is_ours = True
-                                    elif "tallybook" in filename.lower():
+                                    if appimage_path and appimage_path in desktop_content or "tallybook" in filename.lower():
                                         is_ours = True
                                 
                                 if is_ours:
@@ -2462,7 +2489,7 @@ class TallyBookWindow(QMainWindow):
         total_allocated = 0.0
         
         # Calculate totals first for percentage accuracy
-        for acc_id, item in self.budget_inputs.items():
+        for item in self.budget_inputs.values():
             spin = item[0]
             total_allocated += spin.value()
             
@@ -2470,7 +2497,7 @@ class TallyBookWindow(QMainWindow):
         total_for_pct = income if income > 0 else (total_allocated if total_allocated > 0 else 1.0)
         
         # Update data for the table
-        for acc_id, item in self.budget_inputs.items():
+        for item in self.budget_inputs.values():
             spin = item[0]
             pct_lbl = item[1]
             dot_label = item[3] if len(item) > 3 else None
@@ -2688,8 +2715,7 @@ class TallyBookWindow(QMainWindow):
         for key in month_keys:
             total_amount = db_results.get(key, 0.0)
             bar_set_receipts.append(total_amount)
-            if total_amount > max_val_receipts:
-                max_val_receipts = total_amount
+            max_val_receipts = max(max_val_receipts, total_amount)
             
         self.receipts_series.append(bar_set_receipts)
         self.axis_x.clear()
@@ -2743,8 +2769,7 @@ class TallyBookWindow(QMainWindow):
             for key in month_keys:
                 total_amount = p_results.get(key, 0.0)
                 bar_set_p.append(total_amount)
-                if total_amount > max_val_p:
-                    max_val_p = total_amount
+                max_val_p = max(max_val_p, total_amount)
                 
             series.append(bar_set_p)
             ax.clear()
@@ -4077,7 +4102,7 @@ class TallyBookWindow(QMainWindow):
             total = 0.0
             
             # Calculate total
-            for _, (spin, _, _) in multi_inputs.items():
+            for (spin, _, _) in multi_inputs.values():
                 total += spin.value()
             
             remaining = current_balance - total
@@ -4090,7 +4115,7 @@ class TallyBookWindow(QMainWindow):
             else:
                 remaining_lbl.setStyleSheet(f"font-size: {self.s(18)}px; font-weight: bold; color: white;")
             
-            for _, (spin, lbl, _) in multi_inputs.items():
+            for (spin, lbl, _) in multi_inputs.values():
                 val = spin.value()
                 if total > 0:
                     pct = (val / total) * 100
@@ -4129,7 +4154,7 @@ class TallyBookWindow(QMainWindow):
         multi_layout.addWidget(scroll)
         
         def clear_budget_inputs():
-            for _, (spin, _, _) in multi_inputs.items():
+            for (spin, _, _) in multi_inputs.values():
                 spin.setValue(0.0)
         
         clear_btn = QPushButton("Clear All")
@@ -4667,7 +4692,7 @@ class TallyBookWindow(QMainWindow):
         row = self.cursor.fetchone()
         if not row:
             return
-        date_str, desc, amount_internal, acc_id, type_, txid = row
+        date_str, desc, amount_internal, _acc_id, type_, txid = row
         amount = self._from_internal(amount_internal)
 
         # Find both sides of the transfer to get account names and IDs

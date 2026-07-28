@@ -6,7 +6,7 @@ Extracted from TallyBookWindow._format_number_as_currency,
 _format_percentage, _to_internal, and _from_internal.
 """
 
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import ROUND_HALF_UP, Decimal
 
 
 def format_number_as_currency(
