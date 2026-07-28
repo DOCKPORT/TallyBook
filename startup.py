@@ -1,5 +1,4 @@
 import os
-import shutil
 import sys
 
 from PySide6.QtGui import QFontDatabase
@@ -12,48 +11,6 @@ modules_dir = os.path.join(os.path.dirname(__file__), 'modules')
 if modules_dir not in sys.path:
     sys.path.insert(0, modules_dir)
 
-
-def handle_appimage_integration():
-    """Automatically integrates the AppImage into the system (desktop entry)."""
-    appimage_path = os.environ.get('APPIMAGE')
-    if not appimage_path:
-        return  # Not running as an AppImage
-
-    desktop_file_path = paths.get_desktop_entry_path()
-    if os.path.exists(desktop_file_path):
-        return  # Already integrated
-
-    try:
-        # 1. Ensure directories exist
-        apps_dir = os.path.expanduser("~/.local/share/applications")
-        icons_dir = os.path.expanduser("~/.local/share/icons")
-        os.makedirs(apps_dir, exist_ok=True)
-        os.makedirs(icons_dir, exist_ok=True)
-
-        # 2. Copy icon
-        bundled_icon = paths.resource_path("tallybook_app_icon.png")
-        target_icon = os.path.join(icons_dir, "tallybook.png")
-        
-        if os.path.exists(bundled_icon):
-            shutil.copy2(bundled_icon, target_icon)
-
-        # 3. Create Desktop Entry
-        desktop_content = f"""[Desktop Entry]
-Name=TallyBook
-Exec={appimage_path}
-Icon={target_icon}
-Type=Application
-Categories=Finance;Office;
-Terminal=false
-Comment=Financial Ledger App
-StartupWMClass=TallyBook
-"""
-        with open(desktop_file_path, 'w') as f:
-            f.write(desktop_content)
-
-    except (OSError, PermissionError) as e:
-        # Silently log integration failure; non-critical
-        print(f"TallyBook: Failed to create desktop entry: {e}", file=sys.stderr)
 
 def main():
     """Main entry point for the application."""
@@ -78,6 +35,7 @@ def main():
         QFontDatabase.addApplicationFont(fp)
 
     # Handle AppImage integration if running as an AppImage
+    from desktop_entry import handle_appimage_integration
     handle_appimage_integration()
 
     # Create and show the main window
