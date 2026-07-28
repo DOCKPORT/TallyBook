@@ -46,6 +46,10 @@ Thumbs.db
 # Build scripts (not source code)
 scripts/
 
+# Build spec and metainfo (copied to root by docker build)
+TallyBook.spec
+io.github.dockport.TallyBook.metainfo.xml.in
+
 # Rust native module build artifacts
 rust_modules/*/target/
 rust_modules/*/Cargo.lock
