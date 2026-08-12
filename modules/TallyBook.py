@@ -2,6 +2,7 @@
 import os
 import shutil
 import sqlite3
+import subprocess
 import sys
 
 import backup_exporter
@@ -1892,7 +1893,14 @@ class TallyBookWindow(QMainWindow):
         if hasattr(self, 'db_path'):
             app_dir = os.path.dirname(self.db_path)
             if os.path.exists(app_dir):
-                QDesktopServices.openUrl(QUrl.fromLocalFile(app_dir))
+                try:
+                    # Escape AppImage isolation by removing LD_LIBRARY_PATH.
+                    env = os.environ.copy()
+                    if "LD_LIBRARY_PATH" in env:
+                        del env["LD_LIBRARY_PATH"]
+                    subprocess.Popen(["xdg-open", app_dir], env=env)
+                except (FileNotFoundError, OSError):
+                    QDesktopServices.openUrl(QUrl.fromLocalFile(app_dir))
             else:
                 self._show_modern_message("Warning", "Data folder does not exist.", QMessageBox.Icon.Warning)
         else:
