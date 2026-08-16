@@ -18,8 +18,12 @@ struct LedgerRow {
 impl LedgerRow {
     /// Format the display description following TallyBook rules.
     fn format_description(pay_desc: &str, item_desc: &str, count: i64) -> String {
-        let desc = if pay_desc.is_empty() { String::new() } else { pay_desc.to_string() };
-        
+        let desc = if pay_desc.is_empty() {
+            String::new()
+        } else {
+            pay_desc.to_string()
+        };
+
         if count == 1 {
             if !desc.is_empty() && !item_desc.is_empty() {
                 format!("{} - {}", desc, item_desc)
@@ -79,9 +83,21 @@ fn process_transactions(
             desc,
             amount,
             balance: running_balance,
-            raw_pay_desc: if pay_desc.is_empty() { String::new() } else { pay_desc.to_string() },
-            raw_item_desc: if item_desc.is_empty() { String::new() } else { item_desc },
-            all_desc: if all_desc.is_empty() { String::new() } else { all_desc },
+            raw_pay_desc: if pay_desc.is_empty() {
+                String::new()
+            } else {
+                pay_desc.to_string()
+            },
+            raw_item_desc: if item_desc.is_empty() {
+                String::new()
+            } else {
+                item_desc
+            },
+            all_desc: if all_desc.is_empty() {
+                String::new()
+            } else {
+                all_desc
+            },
         };
 
         // Update running balance for next (older) transaction
