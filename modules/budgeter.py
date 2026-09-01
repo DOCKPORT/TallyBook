@@ -3,6 +3,8 @@
 Provides the BudgeterPage widget: a projected-income planner with per-account
 allocation spinboxes, percentage indicators, and an allocated/remaining summary.
 """
+from color_system import color_for_percentage
+from currency import format_percentage
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
@@ -17,11 +19,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
-from color_system import color_for_percentage
-from currency import format_percentage
 from scaling import scaled
-
 from widgets import QuantitySpinBox
 
 
